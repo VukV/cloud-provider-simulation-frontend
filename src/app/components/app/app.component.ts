@@ -16,4 +16,15 @@ export class AppComponent {
   goToLogin(){
     this.router.navigate(['/login']);
   }
+
+  logout(){
+    localStorage.removeItem("jwt");
+  }
+
+  isLoggedIn(): boolean{
+    if(localStorage.getItem("jwt")){
+      return true;
+    }
+    else return false;
+  }
 }

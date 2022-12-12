@@ -10,6 +10,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { PopupComponent } from './components/popup/popup.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PopupComponent } from './components/popup/popup.component';
     LoginComponent,
     EditUserComponent,
     CreateUserComponent,
-    PopupComponent
+    PopupComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

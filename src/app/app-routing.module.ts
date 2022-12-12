@@ -5,6 +5,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {CreateUserComponent} from "./components/create-user/create-user.component";
 import {EditUserComponent} from "./components/edit-user/edit-user.component";
 import {TokenGuard} from "./guards/token.guard";
+import {HomeComponent} from "./components/home/home.component";
 
 const routes: Routes = [
   {
@@ -15,8 +16,7 @@ const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/users",
-    pathMatch: "full"
+    component: HomeComponent
   },
   {
     path: "login",

@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {LoginService} from "../../services/login.service";
 import {LoginResponse} from "../../model/responses/login-response";
 import {PopupComponent} from "../popup/popup.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngAfterViewInit(): void {
 
@@ -32,10 +33,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.loginService.login(this.email, this.password).subscribe( (loginResponse: LoginResponse) => {
         console.log("STIGAO LOGIN");
         //localStorage.setItem("jwt", loginResponse.jwt);
+        this.router.navigate(['/']);
       });
     }
     else {
-      //todo
+      this.openPopup("Error!", "Invalid input.");
     }
   }
 
@@ -47,8 +49,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     return this.password.length > 4 && this.password.length < 20;
   }
 
-  private openPopup() {
-    this.popupComponent.message = "AAAAA";
+  private openPopup(title: string, message: string) {
+    this.popupComponent.title = title;
+    this.popupComponent.message = message;
     this.popupComponent.displayStyle="block";
   }
 

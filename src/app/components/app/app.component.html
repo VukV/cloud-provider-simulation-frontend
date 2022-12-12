@@ -15,7 +15,12 @@
           </li>
         </ul>
         <div class="d-flex">
-          <button type="button" class="btn btn-outline-light" (click)="goToLogin()">Login</button>
+          <div *ngIf="isLoggedIn; else logoutDiv">
+            <button type="button" class="btn btn-outline-light" (click)="goToLogin()">Login</button>
+          </div>
+          <ng-template #logoutDiv>
+            <button type="button" class="btn btn-outline-light" (click)="logout()">Logout</button>
+          </ng-template>
         </div>
       </div>
     </div>
