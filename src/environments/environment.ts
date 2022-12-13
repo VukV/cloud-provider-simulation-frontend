@@ -6,7 +6,8 @@ export const environment = {
   production: false,
 
   loginUrl: "http://localhost:8080/auth/login",
-  usersUrl: "localhost:8080/users"
+  usersUrl: "http://localhost:8080/users",
+  roleUrl: "http://localhost:8080/roles"
 };
 
 /*

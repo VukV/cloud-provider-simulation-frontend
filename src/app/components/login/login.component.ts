@@ -29,11 +29,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   login(){
     if(this.checkEmail() && this.checkPassword()){
-      console.log("usao if ", this.email, this.password);
       this.loginService.login(this.email, this.password).subscribe( (loginResponse: LoginResponse) => {
-        console.log("STIGAO LOGIN");
-        //localStorage.setItem("jwt", loginResponse.jwt);
+        localStorage.setItem("jwt", loginResponse.jwt);
+        this.loginService.setLoggedInBehavior(true);
         this.router.navigate(['/']);
+      }, error => {
+        this.openPopup("Error!", error.message);
       });
     }
     else {
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   private checkPassword(): boolean{
-    return this.password.length > 4 && this.password.length < 20;
+    return this.password.length >= 4 && this.password.length <= 20;
   }
 
   private openPopup(title: string, message: string) {

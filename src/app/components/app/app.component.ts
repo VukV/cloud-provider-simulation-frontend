@@ -1,16 +1,31 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'user-management-frontend';
 
+  displayLogin: string = "block";
+  displayLogout: string = "none";
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loginService: LoginService) {
+  }
+
+  ngOnInit(): void {
+    this.loginService.isLoggedIn.subscribe((loggedIn) => {
+      if(loggedIn){
+        this.setLogout();
+      }
+      else {
+        this.setLogin();
+      }
+    })
   }
 
   goToLogin(){
@@ -19,12 +34,18 @@ export class AppComponent {
 
   logout(){
     localStorage.removeItem("jwt");
+    this.loginService.setLoggedInBehavior(false);
+    this.goToLogin();
   }
 
-  isLoggedIn(): boolean{
-    if(localStorage.getItem("jwt")){
-      return true;
-    }
-    else return false;
+  private setLogin(){
+    this.displayLogin = "block";
+    this.displayLogout = "none";
   }
+
+  private setLogout(){
+    this.displayLogin = "none";
+    this.displayLogout = "block";
+  }
+
 }
