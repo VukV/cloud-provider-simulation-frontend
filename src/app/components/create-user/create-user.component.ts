@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {PopupComponent} from "../popup/popup.component";
 import {RoleResponse} from "../../model/responses/role-response";
 import {RoleService} from "../../services/role.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-create-user',
@@ -20,7 +21,7 @@ export class CreateUserComponent implements OnInit {
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
-  constructor(private roleService: RoleService) { }
+  constructor(private roleService: RoleService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.getRoles();
@@ -28,7 +29,13 @@ export class CreateUserComponent implements OnInit {
 
   createUser(){
     if(this.checkNameAndSurname() && this.checkEmail() && this.checkPassword()){
-      //todo post user
+      this.userService.createUser(this.email, this.name, this.surname, this.password, this.getRoleIds())
+        .subscribe((messageResponse) => {
+        this.openPopup("OK", messageResponse.message);
+        this.clearForm();
+      }, error => {
+        this.openPopup("Error!", error.message);
+      });
     }
     else {
       this.openPopup("Error!", "Invalid input.");
@@ -44,6 +51,16 @@ export class CreateUserComponent implements OnInit {
     }, error => {
       this.openPopup("Error!", error.message);
     });
+  }
+
+  private getRoleIds(): number[]{
+    let roleIds: number[] = [];
+    for(let role of this.roles){
+      if(role.isSelected){
+        roleIds.push(role.roleId);
+      }
+    }
+    return roleIds;
   }
 
   private checkNameAndSurname(): boolean{
@@ -66,5 +83,12 @@ export class CreateUserComponent implements OnInit {
 
   selectRole(role: RoleResponse){
     role.isSelected = !role.isSelected;
+  }
+
+  private clearForm(){
+    this.email = "";
+    this.name = "";
+    this.surname = "";
+    this.password = "";
   }
 }
