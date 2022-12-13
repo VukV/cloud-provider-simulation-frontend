@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  loginUrl: "localhost:8080/auth/login",
+  loginUrl: "http://localhost:8080/auth/login",
   usersUrl: "localhost:8080/users"
 };
 
