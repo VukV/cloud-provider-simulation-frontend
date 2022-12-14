@@ -35,6 +35,21 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  deleteUser(userId: number){
+    this.userService.deleteUser(userId).subscribe((message) => {
+      this.removeUser(userId)
+      this.openPopup("Success!", message.message);
+    }, error => {
+      this.openPopup("Error!", error.message);
+    })
+  }
+
+  private removeUser(userId: number){
+    this.users.forEach( (user, index) => {
+      if(user.userId === userId) this.users.splice(index,1);
+    });
+  }
+
   private openPopup(title: string, message: string) {
     this.popupComponent.title = title;
     this.popupComponent.message = message;

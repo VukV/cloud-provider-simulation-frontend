@@ -17,7 +17,9 @@
         <td>{{ user.surname }}</td>
         <td>{{ user.email }}</td>
         <td>{{ printRoles(user.roles) }}</td>
-        <td *ngIf="canDelete">DELETE</td>
+        <td *ngIf="canDelete">
+          <button type="button" class="btn btn-outline-danger" (click)="deleteUser(user.userId)">DELETE</button>
+        </td>
       </tr>
       </tbody>
     </table>

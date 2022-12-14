@@ -12,7 +12,7 @@ import {TokenPayload} from "../model/token-payload";
 })
 export class UserService {
 
-  private loginUrl = environment.usersUrl;
+  private usersUrl = environment.usersUrl;
   private headers = new HttpHeaders({
     'Authorization':'Bearer ' + localStorage.getItem("jwt")
   });
@@ -30,7 +30,7 @@ export class UserService {
   }
 
   getAllUsers():Observable<UserResponse[]>{
-    return this.httpClient.get<UserResponse[]>(this.loginUrl, {
+    return this.httpClient.get<UserResponse[]>(this.usersUrl, {
       headers: this.headers
     }).pipe(
       catchError(err => {
@@ -40,7 +40,7 @@ export class UserService {
   }
 
   createUser(email: string, name: string, surname: string, password: string, roleIds: number[]): Observable<MessageResponse>{
-    return this.httpClient.post<MessageResponse>(this.loginUrl,
+    return this.httpClient.post<MessageResponse>(this.usersUrl,
       {
       email: email,
       password: password,
@@ -51,6 +51,16 @@ export class UserService {
       {
         headers: this.headers
       }).pipe(
+      catchError(err => {
+        return throwError(() => new Error(err.error.message));
+      })
+    );
+  }
+
+  deleteUser(userId: number):Observable<MessageResponse>{
+    return this.httpClient.delete<MessageResponse>(this.usersUrl + "/" + userId, {
+      headers: this.headers
+    }).pipe(
       catchError(err => {
         return throwError(() => new Error(err.error.message));
       })
