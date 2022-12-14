@@ -15,7 +15,9 @@ export class UpdateUserComponent implements OnInit {
 
   private userId: number = -1;
   roles: RoleResponse[] = [];
-  user!: UserResponse;
+  name: string = "";
+  surname: string = "";
+  email: string = "";
 
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
@@ -32,10 +34,17 @@ export class UpdateUserComponent implements OnInit {
 
   private getUser(){
     this.userService.getUser(this.userId).subscribe((user) => {
-      this.user = user;
+      this.setUser(user);
     },error => {
       this.openPopup("Error!", error.message);
     });
+  }
+
+  private setUser(user: UserResponse){
+    this.name = user.name;
+    this.surname = user.surname;
+    this.email = user.email;
+    this.setupRoles(user);
   }
 
   updateUser(){
@@ -53,6 +62,24 @@ export class UpdateUserComponent implements OnInit {
     });
   }
 
+  private setupRoles(user: UserResponse){
+    for(let r of this.roles){
+      for(let userRole of user.roles){
+        if(r.roleId == userRole.roleId){
+          let button = document.getElementById('role-button-' + r.roleId);
+          if(button) {
+            button.click();
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  selectRole(role: RoleResponse){
+    role.isSelected = !role.isSelected;
+  }
+
   private getRoleIds(): number[]{
     let roleIds: number[] = [];
     for(let role of this.roles){
@@ -67,6 +94,10 @@ export class UpdateUserComponent implements OnInit {
     this.popupComponent.title = title;
     this.popupComponent.message = message;
     this.popupComponent.displayStyle="block";
+  }
+
+  cancelUpdate(){
+    this.router.navigate(['/users']);
   }
 
 }

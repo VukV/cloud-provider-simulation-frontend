@@ -39,14 +39,14 @@
 
   <div *ngFor="let role of roles" class="row justify-content-center">
     <div class="col-md-4 d-grid toggle-btn-role">
-      <button type="button" class="btn btn-outline-success" data-bs-toggle="button" (click)="selectRole(role)">{{ role.role }}</button>
+      <button type="button" class="btn btn-outline-success rounded-pill" data-bs-toggle="button" (click)="selectRole(role)">{{ role.role }}</button>
     </div>
   </div>
   <br>
 
   <div class="row justify-content-center">
     <div class="col-md-2 d-grid">
-      <button type="button" class="btn btn-success btn-block" (click)="createUser()">Create</button>
+      <button type="button" class="btn btn-success btn-block rounded-pill" (click)="createUser()">Create</button>
     </div>
   </div>
 
