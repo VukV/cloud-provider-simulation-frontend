@@ -76,4 +76,21 @@ export class UserService {
       })
     );
   }
+
+  updateUser(userId: number, email: string, name: string, surname: string, roleIds: number[]): Observable<MessageResponse>{
+    return this.httpClient.put<MessageResponse>(this.usersUrl, {
+      userId: userId,
+      email: email,
+      name: name,
+      surname: surname,
+      roleIds: roleIds
+    },
+      {
+        headers: this.headers
+      }).pipe(
+      catchError(err => {
+        return throwError(() => new Error(err.error.message));
+      })
+    );
+  }
 }

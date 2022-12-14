@@ -19,6 +19,8 @@ export class UpdateUserComponent implements OnInit {
   surname: string = "";
   email: string = "";
 
+  emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
@@ -28,6 +30,7 @@ export class UpdateUserComponent implements OnInit {
     this.getRoles();
     this.activatedRoute.params.subscribe(params => {
       this.userId = +params['userId'];
+      console.log(this.userId);
       this.getUser();
     })
   }
@@ -48,7 +51,13 @@ export class UpdateUserComponent implements OnInit {
   }
 
   updateUser(){
-    //todo put user
+    if(this.checkNameAndSurname() && this.checkEmail()){
+      this.userService.updateUser(this.userId, this.email, this.name, this.surname, this.getRoleIds()).subscribe(() => {
+        this.goToUsersPage();
+      }, error => {
+        this.openPopup("Error!", error.message);
+      });
+    }
   }
 
   private getRoles(){
@@ -96,8 +105,16 @@ export class UpdateUserComponent implements OnInit {
     this.popupComponent.displayStyle="block";
   }
 
-  cancelUpdate(){
+  goToUsersPage(){
     this.router.navigate(['/users']);
+  }
+
+  private checkNameAndSurname(): boolean{
+    return this.name != "" && this.surname != "";
+  }
+
+  private checkEmail(): boolean{
+    return this.emailRegex.test(this.email);
   }
 
 }
