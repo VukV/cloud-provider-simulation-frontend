@@ -39,6 +39,16 @@ export class UserService {
     )
   }
 
+  getUser(userId: number):Observable<UserResponse>{
+    return this.httpClient.get<UserResponse>(this.usersUrl + "/" + userId, {
+      headers: this.headers
+    }).pipe(
+      catchError(err => {
+        return throwError(() => new Error(err.error.message));
+      })
+    )
+  }
+
   createUser(email: string, name: string, surname: string, password: string, roleIds: number[]): Observable<MessageResponse>{
     return this.httpClient.post<MessageResponse>(this.usersUrl,
       {
