@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import { Observable } from 'rxjs';
+import jwtDecode from "jwt-decode";
+import {TokenPayload} from "../model/token-payload";
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +16,18 @@ export class TokenGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree{
 
-    let role = route.data['roles'];
-    console.log(role);
+    let roles = route.data['roles'];
+    let token = localStorage.getItem("jwt");
 
-    if(localStorage.getItem("jwt")){
-      //todo check role
-      return true;
+    if(token){
+      let decoded = jwtDecode<TokenPayload>(token);
+      for(let userRole of decoded.roles){
+        if(roles.includes(userRole)){
+          return true;
+        }
+      }
+
+      return false;
     }
 
     this.router.navigate(['/login']);
