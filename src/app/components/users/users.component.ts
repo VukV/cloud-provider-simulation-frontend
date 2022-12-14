@@ -4,6 +4,7 @@ import {PopupComponent} from "../popup/popup.component";
 import {UserService} from "../../services/user.service";
 import {RoleResponse} from "../../model/responses/role-response";
 import {RoleEnum} from "../../model/role-enum";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-users',
@@ -19,7 +20,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.getUsers();
@@ -62,6 +63,10 @@ export class UsersComponent implements OnInit {
       return roleNames.toString().slice(0, 10).concat("...");
     }
     return roleNames.toString().slice(0, 25);
+  }
+
+  openUpdateUser(userId: number){
+    this.router.navigate(["/update-user", userId]);
   }
 
 }

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { UpdateUserComponent } from './components/update-user/update-user.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
@@ -17,7 +17,7 @@ import { HomeComponent } from './components/home/home.component';
     AppComponent,
     UsersComponent,
     LoginComponent,
-    EditUserComponent,
+    UpdateUserComponent,
     CreateUserComponent,
     PopupComponent,
     HomeComponent

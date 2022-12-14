@@ -14,7 +14,7 @@ export class TokenGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree{
 
-    let role = route.data['role'];
+    let role = route.data['roles'];
     console.log(role);
 
     if(localStorage.getItem("jwt")){

@@ -16,7 +16,7 @@ export class CreateUserComponent implements OnInit {
   surname: string = "";
   password: string = "";
   emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  roles: RoleResponse[] = []
+  roles: RoleResponse[] = [];
 
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;

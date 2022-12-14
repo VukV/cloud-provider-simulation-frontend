@@ -15,7 +15,14 @@
       <tr *ngFor="let user of users">
         <td>{{ user.name }}</td>
         <td>{{ user.surname }}</td>
-        <td>{{ user.email }}</td>
+        <td>
+          <div id="underline-email" *ngIf="canUpdate; else cantUpdate" (click)="openUpdateUser(user.userId)">
+            {{ user.email }}
+          </div>
+          <ng-template #cantUpdate>
+            {{ user.email }}
+          </ng-template>
+        </td>
         <td>{{ printRoles(user.roles) }}</td>
         <td *ngIf="canDelete">
           <button type="button" class="btn btn-outline-danger" (click)="deleteUser(user.userId)">DELETE</button>

@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {UsersComponent} from "./components/users/users.component";
 import {LoginComponent} from "./components/login/login.component";
 import {CreateUserComponent} from "./components/create-user/create-user.component";
-import {EditUserComponent} from "./components/edit-user/edit-user.component";
+import {UpdateUserComponent} from "./components/update-user/update-user.component";
 import {TokenGuard} from "./guards/token.guard";
 import {HomeComponent} from "./components/home/home.component";
+import {RoleEnum} from "./model/role-enum";
 
 const routes: Routes = [
   {
     path: "users",
     component: UsersComponent,
     canActivate: [TokenGuard],
-    data: {role: 'CAN_READ_USERS'}
+    data: {roles: [RoleEnum.READ, RoleEnum.UPDATE, RoleEnum.DELETE]}
   },
   {
     path: "",
@@ -26,13 +27,13 @@ const routes: Routes = [
     path: "create-user",
     component: CreateUserComponent,
     canActivate: [TokenGuard],
-    data: {role: 'CAN_CREATE_USERS'}
+    data: {roles: [RoleEnum.CREATE]}
   },
   {
-    path: "edit-user/:userId",
-    component: EditUserComponent,
+    path: "update-user/:userId",
+    component: UpdateUserComponent,
     canActivate: [TokenGuard],
-    data: {role: 'CAN_UPDATE_USERS'}
+    data: {roles: [RoleEnum.UPDATE]}
   }
 ];
 
