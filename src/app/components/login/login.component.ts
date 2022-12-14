@@ -32,6 +32,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.loginService.login(this.email, this.password).subscribe( (loginResponse: LoginResponse) => {
         localStorage.setItem("jwt", loginResponse.jwt);
         this.loginService.setLoggedInBehavior(true);
+        if(!this.loginService.hasAnyRoles()){
+          alert("You don't have any roles.");
+        }
         this.router.navigate(['/']);
       }, error => {
         this.openPopup("Error!", error.message);

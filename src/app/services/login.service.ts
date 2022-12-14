@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, catchError, Observable, throwError} from "rxjs";
 import {LoginResponse} from "../model/responses/login-response";
 import {environment} from "../../environments/environment";
+import jwtDecode from "jwt-decode";
+import {TokenPayload} from "../model/token-payload";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +37,14 @@ export class LoginService {
     return !!localStorage.getItem("jwt");
   }
 
+  hasAnyRoles(): boolean{
+    let token = localStorage.getItem("jwt");
+    if(token == null){
+      return false;
+    }
 
+    let decoded = jwtDecode<TokenPayload>(token);
+    return decoded.roles.length > 0;
+  }
 
 }
