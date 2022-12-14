@@ -4,6 +4,8 @@ import {environment} from "../../environments/environment";
 import {catchError, Observable, throwError} from "rxjs";
 import {MessageResponse} from "../model/responses/message-response";
 import {UserResponse} from "../model/responses/user-response";
+import jwtDecode from "jwt-decode";
+import {TokenPayload} from "../model/token-payload";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,16 @@ export class UserService {
   });
 
   constructor(private httpClient: HttpClient) { }
+
+  checkUserRole(role: string): boolean{
+    let token = localStorage.getItem("jwt");
+    if(token == null){
+      return false;
+    }
+
+    let decoded = jwtDecode<TokenPayload>(token);
+    return decoded.roles.includes(role);
+  }
 
   getAllUsers():Observable<UserResponse[]>{
     return this.httpClient.get<UserResponse[]>(this.loginUrl, {

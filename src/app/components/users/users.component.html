@@ -1,4 +1,26 @@
 <div class="container">
-
+  <br><br>
+  <div class="row">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Permissions</th>
+        <th *ngIf="canDelete">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.surname }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ printRoles(user.roles) }}</td>
+        <td *ngIf="canDelete">DELETE</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <app-popup></app-popup>
 </div>
