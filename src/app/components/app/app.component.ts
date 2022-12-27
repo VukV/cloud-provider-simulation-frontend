@@ -9,7 +9,7 @@ import {LoginService} from "../../services/login.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'user-management-frontend';
+  title = 'cloud-provider-simulation-frontend';
 
   displayLogin: string = "block";
   displayLogout: string = "none";
