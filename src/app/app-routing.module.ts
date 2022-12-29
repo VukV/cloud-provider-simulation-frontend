@@ -8,6 +8,7 @@ import {TokenGuard} from "./guards/token.guard";
 import {HomeComponent} from "./components/home/home.component";
 import {RoleEnum} from "./model/role-enum";
 import {MachineErrorsComponent} from "./components/machine-errors/machine-errors.component";
+import {MachinesComponent} from "./components/machines/machines.component";
 
 const routes: Routes = [
   {
@@ -35,6 +36,12 @@ const routes: Routes = [
     component: UpdateUserComponent,
     canActivate: [TokenGuard],
     data: {roles: [RoleEnum.UPDATE]}
+  },
+  {
+    path: "machines",
+    component: MachinesComponent,
+    canActivate: [TokenGuard],
+    data: {roles: [RoleEnum.SEARCH_MACHINES]}
   },
   {
     path: "machine-errors",

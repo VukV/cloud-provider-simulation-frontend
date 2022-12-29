@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { PopupComponent } from './components/popup/popup.component';
 import { HomeComponent } from './components/home/home.component';
 import { MachineErrorsComponent } from './components/machine-errors/machine-errors.component';
+import { MachinesComponent } from './components/machines/machines.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MachineErrorsComponent } from './components/machine-errors/machine-erro
     CreateUserComponent,
     PopupComponent,
     HomeComponent,
-    MachineErrorsComponent
+    MachineErrorsComponent,
+    MachinesComponent
   ],
   imports: [
     BrowserModule,
