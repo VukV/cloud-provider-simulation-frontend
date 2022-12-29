@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { PopupComponent } from './components/popup/popup.component';
 import { HomeComponent } from './components/home/home.component';
+import { MachineErrorsComponent } from './components/machine-errors/machine-errors.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HomeComponent } from './components/home/home.component';
     UpdateUserComponent,
     CreateUserComponent,
     PopupComponent,
-    HomeComponent
+    HomeComponent,
+    MachineErrorsComponent
   ],
   imports: [
     BrowserModule,

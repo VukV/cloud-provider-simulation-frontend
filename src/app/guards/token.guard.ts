@@ -18,8 +18,13 @@ export class TokenGuard implements CanActivate {
 
     let roles = route.data['roles'];
     let token = localStorage.getItem("jwt");
+    console.log(roles);
 
     if(token){
+      if(roles === undefined || roles.length == 0){
+        return true;
+      }
+
       let decoded = jwtDecode<TokenPayload>(token);
       for(let userRole of decoded.roles){
         if(roles.includes(userRole)){
