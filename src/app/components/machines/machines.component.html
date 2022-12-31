@@ -1,1 +1,39 @@
-<p>machines works!</p>
+<div class="container">
+  <br><br>
+
+  <div class="row justify-content-center">
+    <div class="col-md-2 d-flex align-items-center">
+      <input type="text" class="form-control" placeholder="Name">
+    </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <input type="date" class="form-control" placeholder="From">
+    </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <input type="date" class="form-control" placeholder="To">
+    </div>
+    <div class="col-md-2">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="STOPPED">
+        <label class="form-check-label">Stopped</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="RUNNING">
+        <label class="form-check-label">Running</label>
+      </div>
+    </div>
+    <div class="col-md-2 d-flex align-items-center text-center">
+      <button type="button" class="btn btn-success btn-block rounded-pill">Search</button>
+    </div>
+  </div>
+  <br>
+
+  <div class="row justify-content-center">
+    <div *ngFor="let machine of machines" class="col-md-4 d-flex align-items-center single-machine">
+
+    </div>
+  </div>
+
+
+
+  <app-popup></app-popup>
+</div>
