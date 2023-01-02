@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MachineService} from "../../services/machine.service";
 import {UserService} from "../../services/user.service";
 import {MachineResponse} from "../../model/responses/machine-response";
 import {RoleEnum} from "../../model/role-enum";
 import {MachineStatusEnum} from "../../model/machine-status-enum";
+import {PopupComponent} from "../popup/popup.component";
 
 @Component({
   selector: 'app-machines',
@@ -24,6 +25,11 @@ export class MachinesComponent implements OnInit {
   dateFrom: number = -1;
   dateTo: number = -1;
 
+  createMachineName: string = "";
+
+  @ViewChild(PopupComponent)
+  popupComponent!: PopupComponent;
+
   constructor(private machineService: MachineService, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -40,8 +46,31 @@ export class MachinesComponent implements OnInit {
   }
 
   getMachines(){
-    this.machineService.getMachines("", [], 1, 1);
-    //todo
+    this.machineService.getMachines(this.machineName, this.statusList, this.dateFrom, this.dateTo).subscribe({
+      complete: () => {},
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: (machines) => this.machines = machines
+    });
+  }
+
+  createMachine(){
+    this.machineService.createMachine(this.createMachineName).subscribe({
+      complete: () => {
+        this.createMachineName = ""
+      },
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: (machine) => this.machines.push(machine)
+    });
+  }
+
+  private openPopup(title: string, message: string) {
+    this.popupComponent.title = title;
+    this.popupComponent.message = message;
+    this.popupComponent.displayStyle="block";
   }
 
 }

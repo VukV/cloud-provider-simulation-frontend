@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {catchError, Observable, throwError} from "rxjs";
 import {MachineErrorResponse} from "../model/responses/machine-error-response";
 import {MachineResponse} from "../model/responses/machine-response";
 import {MachineStatusEnum} from "../model/machine-status-enum";
+import {MessageResponse} from "../model/responses/message-response";
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +20,42 @@ export class MachineService {
   constructor(private httpClient: HttpClient) { }
 
   getMachines(machineName: string, statusList: MachineStatusEnum[], dateFrom: number, dateTo: number):Observable<MachineResponse[]>{
-    //todo
-    let searchUrl: string = "";
+    let params = new HttpParams();
+    if(machineName != ""){
+      params.set("machineName", machineName);
+    }
+    if(statusList.length > 0){
+      params.set("statusList", statusList.toString());
+    }
+    if(dateFrom > -1 && dateTo > -1){
+      params.set("dateFrom", dateFrom);
+      params.set("dateTo", dateTo);
+    }
 
-    return this.httpClient.get<MachineResponse[]>(searchUrl, {
-      headers: this.headers
+    return this.httpClient.get<MachineResponse[]>(this.machinesUrl, {
+      headers: this.headers,
+      params: params
     }).pipe(
       catchError(err => {
         return throwError(() => new Error(err.error.message));
       })
     )
+  }
+
+  createMachine(machineName: string):Observable<MachineResponse>{
+    return this.httpClient.post<MachineResponse>(this.machinesUrl,
+      {},
+      {
+        headers: this.headers,
+        params: {
+          "machineName": machineName
+        }
+      }).pipe(
+      catchError(err => {
+        return throwError(() => new Error(err.error.message));
+      })
+    );
+
   }
 
   getMachineErrors():Observable<MachineErrorResponse[]>{

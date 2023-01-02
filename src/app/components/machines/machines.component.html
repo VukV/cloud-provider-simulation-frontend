@@ -3,7 +3,7 @@
 
   <div class="row justify-content-center">
     <div class="col-md-2 d-flex align-items-center">
-      <input type="text" class="form-control" placeholder="Name">
+      <input type="text" class="form-control" placeholder="Name" [(ngModel)]="machineName">
     </div>
     <div class="col-md-2 d-flex align-items-center">
       <input type="date" class="form-control" placeholder="From">
@@ -13,11 +13,11 @@
     </div>
     <div class="col-md-2">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="STOPPED">
+        <input class="form-check-input" type="checkbox" value="STOPPED" id="stopped-check">
         <label class="form-check-label">Stopped</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="RUNNING">
+        <input class="form-check-input" type="checkbox" value="RUNNING" id="running-check">
         <label class="form-check-label">Running</label>
       </div>
     </div>
@@ -27,13 +27,25 @@
   </div>
   <br>
 
-  <div class="row justify-content-center">
-    <div *ngFor="let machine of machines" class="col-md-4 d-flex align-items-center single-machine">
-
+  <div class="row justify-content-center overflow-auto">
+    <div *ngFor="let machine of machines" class="col-md-3 align-items-center single-machine">
+      <h5>{{ machine.name }}</h5>
+      <h6>{{ machine.machineStatus }}</h6>
+      <p>{{ machine.createdDate * 1000 | date: 'medium' }}</p>
     </div>
   </div>
 
-
+  <br><br>
+  <div class="row justify-content-center">
+    <div class="col-md-4 align-items-center">
+      <input type="text" class="form-control" placeholder="New machine name" [(ngModel)]="createMachineName">
+    </div>
+  </div>
+  <div class="row justify-content-center create-machine">
+    <div class="col-md-4 d-grid align-items-center">
+      <button type="button" class="btn btn-success btn-block rounded-pill" (click)="createMachine()">Create Machine</button>
+    </div>
+  </div>
 
   <app-popup></app-popup>
 </div>
