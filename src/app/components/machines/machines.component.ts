@@ -6,6 +6,9 @@ import {RoleEnum} from "../../model/role-enum";
 import {MachineStatusEnum} from "../../model/machine-status-enum";
 import {PopupComponent} from "../popup/popup.component";
 import {MachineActionEnum} from "../../model/machine-action-enum";
+import {CompatClient, Stomp} from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-machines',
@@ -28,6 +31,9 @@ export class MachinesComponent implements OnInit {
 
   createMachineName: string = "";
 
+  // @ts-ignore
+  stompClient: CompatClient;
+
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
@@ -36,6 +42,7 @@ export class MachinesComponent implements OnInit {
   ngOnInit(): void {
     this.getMachines();
     this.checkAllRoles();
+    this.connectToSocket();
   }
 
   checkAllRoles(){
@@ -154,6 +161,29 @@ export class MachinesComponent implements OnInit {
       next: () => {
       }
     });
+  }
+
+  connectToSocket(){
+    let jwt = localStorage.getItem("jwt");
+    const socket = new SockJS(environment.wsUrl + "?jwt=" + jwt);
+    this.stompClient = Stomp.over(socket);
+    this.stompClient.connect({}, this.onConnect.bind(this));
+  }
+
+  onConnect(){
+    let email = this.userService.getUserEmail();
+    if(email != null){
+      this.stompClient.subscribe('/topic/' + email, this.changeMachines.bind(this));
+    }
+  }
+
+  changeMachines(machineMessage: any){
+    let machine = JSON.parse(machineMessage.body);
+    for(let m of this.machines){
+      if(m.machineId == machine.machineId){
+        m.machineStatus = machine.machineStatus;
+      }
+    }
   }
 
   isStopped(status: MachineStatusEnum):boolean{
