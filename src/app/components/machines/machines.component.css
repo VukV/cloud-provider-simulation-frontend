@@ -8,3 +8,11 @@
 .create-machine{
   margin-top: 10px;
 }
+
+.machine-action{
+  margin: 5px;
+}
+
+.machine-action:hover{
+  cursor: pointer;
+}

@@ -5,6 +5,7 @@ import {MachineResponse} from "../../model/responses/machine-response";
 import {RoleEnum} from "../../model/role-enum";
 import {MachineStatusEnum} from "../../model/machine-status-enum";
 import {PopupComponent} from "../popup/popup.component";
+import {MachineActionEnum} from "../../model/machine-action-enum";
 
 @Component({
   selector: 'app-machines',
@@ -57,7 +58,9 @@ export class MachinesComponent implements OnInit {
       error: (error) => {
         this.openPopup("Error!", error.message);
       },
-      next: (machines) => this.machines = machines
+      next: (machines) => {
+        this.machines = machines;
+      }
     });
   }
 
@@ -94,8 +97,67 @@ export class MachinesComponent implements OnInit {
       error: (error) => {
         this.openPopup("Error!", error.message);
       },
-      next: (machine) => this.machines.push(machine)
+      next: (machine) => {
+        this.machines.push(machine);
+      }
     });
+  }
+
+  deleteMachine(machineId: number){
+    this.machineService.deleteMachine(machineId).subscribe({
+      complete : () => {},
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: () => {
+        for(let i = 0; i < this.machines.length; i++){
+          if(this.machines[i].machineId == machineId){
+            this.machines.splice(i, 1);
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  startMachine(machineId: number){
+    this.machineService.startAction(machineId, MachineActionEnum.START).subscribe({
+      complete: () => {
+      },
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: () => {
+      }
+    });
+  }
+
+  stopMachine(machineId: number){
+    this.machineService.startAction(machineId, MachineActionEnum.STOP).subscribe({
+      complete: () => {
+      },
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: () => {
+      }
+    });
+  }
+
+  restartMachine(machineId: number){
+    this.machineService.startAction(machineId, MachineActionEnum.RESTART).subscribe({
+      complete: () => {
+      },
+      error: (error) => {
+        this.openPopup("Error!", error.message);
+      },
+      next: () => {
+      }
+    });
+  }
+
+  isStopped(status: MachineStatusEnum):boolean{
+    return status == MachineStatusEnum.STOPPED;
   }
 
   private openPopup(title: string, message: string) {

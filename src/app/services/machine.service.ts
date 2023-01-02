@@ -5,6 +5,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {MachineErrorResponse} from "../model/responses/machine-error-response";
 import {MachineResponse} from "../model/responses/machine-response";
 import {MachineStatusEnum} from "../model/machine-status-enum";
+import {MachineActionEnum} from "../model/machine-action-enum";
 
 @Injectable({
   providedIn: 'root'
@@ -55,12 +56,53 @@ export class MachineService {
         return throwError(() => new Error(err.error.message));
       })
     );
+  }
 
+  deleteMachine(machineId: number):Observable<any>{
+    return this.httpClient.delete(this.machinesUrl + "/" + machineId, {
+      headers: this.headers
+    })
+      .pipe(
+        catchError(err => {
+          return throwError(() => new Error(err.error.message));
+        })
+      );
+  }
+
+  startAction(machineId: number, action: MachineActionEnum):Observable<any>{
+    let url;
+    switch (action){
+      case MachineActionEnum.RESTART:
+        url = "/restart/";
+        break;
+      case MachineActionEnum.START:
+        url = "/start/";
+        break;
+      case MachineActionEnum.STOP:
+        url = "/stop/";
+        break;
+      default:
+        url = "/stop/";
+    }
+
+    return this.httpClient.post(this.machinesUrl + url + machineId, {}, {
+      headers: this.headers
+    })
+      .pipe(
+        catchError(err => {
+          return throwError(() => new Error(err.error.message));
+        })
+      );
   }
 
   getMachineErrors():Observable<MachineErrorResponse[]>{
     return this.httpClient.get<MachineErrorResponse[]>(
       this.machinesUrl + "/errors",
-      {headers: this.headers});
+      {headers: this.headers})
+      .pipe(
+        catchError(err => {
+          return throwError(() => new Error(err.error.message));
+        })
+      );
   }
 }

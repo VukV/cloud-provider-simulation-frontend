@@ -32,20 +32,31 @@
       <h5>{{ machine.name }}</h5>
       <h6>{{ machine.machineStatus }}</h6>
       <p>{{ machine.createdDate * 1000 | date: 'medium' }}</p>
+      <div *ngIf="isStopped(machine.machineStatus); else running" class="d-flex align-items-center">
+        <img *ngIf="canStart" class="machine-action" src="./assets/power-on.svg" alt="power on" width="30" height="30" (click)="startMachine(machine.machineId)">
+        <img *ngIf="canDestroy" class="machine-action" src="./assets/delete.svg" alt="delete" width="35" height="35" (click)="deleteMachine(machine.machineId)">
+      </div>
+      <ng-template #running class="d-flex align-items-center">
+        <img *ngIf="canStop" class="machine-action" src="./assets/power-off.svg" alt="power off" width="30" height="30" (click)="stopMachine(machine.machineId)">
+        <img *ngIf="canRestart" class="machine-action" src="./assets/restart.svg" alt="restart" width="30" height="30" (click)="restartMachine(machine.machineId)">
+      </ng-template>
     </div>
   </div>
 
   <br><br>
-  <div class="row justify-content-center">
-    <div class="col-md-4 align-items-center">
-      <input type="text" class="form-control" placeholder="New machine name" [(ngModel)]="createMachineName">
+  <div *ngIf="canCreate">
+    <div class="row justify-content-center">
+      <div class="col-md-4 align-items-center">
+        <input type="text" class="form-control" placeholder="New machine name" [(ngModel)]="createMachineName">
+      </div>
+    </div>
+    <div class="row justify-content-center create-machine">
+      <div class="col-md-4 d-grid align-items-center">
+        <button type="button" class="btn btn-success btn-block rounded-pill" (click)="createMachine()">Create Machine</button>
+      </div>
     </div>
   </div>
-  <div class="row justify-content-center create-machine">
-    <div class="col-md-4 d-grid align-items-center">
-      <button type="button" class="btn btn-success btn-block rounded-pill" (click)="createMachine()">Create Machine</button>
-    </div>
-  </div>
+
 
   <app-popup></app-popup>
 </div>
