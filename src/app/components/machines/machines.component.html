@@ -35,13 +35,13 @@
       <div *ngIf="isStopped(machine.machineStatus); else running" class="d-flex align-items-center">
         <img *ngIf="canStart" class="machine-action" src="./assets/power-on.svg" alt="power on" width="30" height="30" (click)="startMachine(machine.machineId)">
         <img *ngIf="canDestroy" class="machine-action" src="./assets/delete.svg" alt="delete" width="35" height="35" (click)="deleteMachine(machine.machineId)">
-        <img class="machine-action ms-auto" src="./assets/time.svg" alt="schedule" width="30" height="30">
+        <img class="machine-action ms-auto" src="./assets/time.svg" alt="schedule" width="30" height="30" (click)="openSchedule(machine.machineId, machine.name)">
       </div>
       <ng-template #running>
         <div class="d-flex align-items-center">
           <img *ngIf="canStop" class="machine-action" src="./assets/power-off.svg" alt="power off" width="30" height="30" (click)="stopMachine(machine.machineId)">
           <img *ngIf="canRestart" class="machine-action" src="./assets/restart.svg" alt="restart" width="30" height="30" (click)="restartMachine(machine.machineId)">
-          <img class="machine-action ms-auto" src="./assets/time.svg" alt="schedule" width="30" height="30">
+          <img class="machine-action ms-auto" src="./assets/time.svg" alt="schedule" width="30" height="30" (click)="openSchedule(machine.machineId, machine.name)">
         </div>
       </ng-template>
     </div>
@@ -60,7 +60,6 @@
       </div>
     </div>
   </div>
-
 
   <app-popup></app-popup>
 </div>

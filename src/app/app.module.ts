@@ -13,6 +13,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { HomeComponent } from './components/home/home.component';
 import { MachineErrorsComponent } from './components/machine-errors/machine-errors.component';
 import { MachinesComponent } from './components/machines/machines.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MachinesComponent } from './components/machines/machines.component';
     PopupComponent,
     HomeComponent,
     MachineErrorsComponent,
-    MachinesComponent
+    MachinesComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

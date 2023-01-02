@@ -30,9 +30,8 @@ export class UpdateUserComponent implements OnInit {
     this.getRoles();
     this.activatedRoute.params.subscribe(params => {
       this.userId = +params['userId'];
-      console.log(this.userId);
       this.getUser();
-    })
+    });
   }
 
   private getUser(){

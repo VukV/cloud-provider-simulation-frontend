@@ -9,6 +9,7 @@ import {MachineActionEnum} from "../../model/machine-action-enum";
 import {CompatClient, Stomp} from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import {environment} from "../../../environments/environment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-machines',
@@ -37,7 +38,7 @@ export class MachinesComponent implements OnInit {
   @ViewChild(PopupComponent)
   popupComponent!: PopupComponent;
 
-  constructor(private machineService: MachineService, private userService: UserService) { }
+  constructor(private machineService: MachineService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.getMachines();
@@ -204,4 +205,7 @@ export class MachinesComponent implements OnInit {
     running.checked = false;
   }
 
+  openSchedule(machineId: number, machineName: string){
+    this.router.navigate(['/schedule', machineId, machineName]);
+  }
 }

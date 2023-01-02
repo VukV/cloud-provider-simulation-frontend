@@ -18,7 +18,6 @@ export class TokenGuard implements CanActivate {
 
     let roles = route.data['roles'];
     let token = localStorage.getItem("jwt");
-    console.log(roles);
 
     if(token){
       if(roles === undefined || roles.length == 0){

@@ -9,6 +9,7 @@ import {HomeComponent} from "./components/home/home.component";
 import {RoleEnum} from "./model/role-enum";
 import {MachineErrorsComponent} from "./components/machine-errors/machine-errors.component";
 import {MachinesComponent} from "./components/machines/machines.component";
+import {ScheduleComponent} from "./components/schedule/schedule.component";
 
 const routes: Routes = [
   {
@@ -46,6 +47,11 @@ const routes: Routes = [
   {
     path: "machine-errors",
     component: MachineErrorsComponent,
+    canActivate: [TokenGuard]
+  },
+  {
+    path: "schedule/:machineId/:machineName",
+    component: ScheduleComponent,
     canActivate: [TokenGuard]
   }
 ];

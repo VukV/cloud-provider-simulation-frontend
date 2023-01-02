@@ -105,4 +105,33 @@ export class MachineService {
         })
       );
   }
+
+  scheduleTask(machineId: number, action: MachineActionEnum, date: number):Observable<any>{
+    let url;
+    switch (action){
+      case MachineActionEnum.RESTART:
+        url = "/schedule/restart";
+        break;
+      case MachineActionEnum.START:
+        url = "/schedule/start";
+        break;
+      case MachineActionEnum.STOP:
+        url = "/schedule/stop";
+        break;
+      default:
+        url = "/schedule/stop";
+    }
+
+    return this.httpClient.post(this.machinesUrl + url, {
+      machineId: machineId,
+      scheduleDate: date
+    }, {
+      headers: this.headers
+    })
+      .pipe(
+        catchError(err => {
+          return throwError(() => new Error(err.error.message));
+        })
+      );
+  }
 }

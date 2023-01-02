@@ -28,7 +28,7 @@
         <tbody>
         <tr *ngFor="let machineError of machineErrors">
           <td>{{ machineError.machineName }}</td>
-          <td>{{ machineError.errorDate | date: 'medium' }}</td>
+          <td>{{ machineError.errorDate * 1000 | date: 'medium' }}</td>
           <td>{{ machineError.action }}</td>
           <td>{{ machineError.message }}</td>
         </tr>
