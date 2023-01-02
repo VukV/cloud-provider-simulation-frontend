@@ -6,10 +6,10 @@
       <input type="text" class="form-control" placeholder="Name" [(ngModel)]="machineName">
     </div>
     <div class="col-md-2 d-flex align-items-center">
-      <input type="date" class="form-control" placeholder="From">
+      <input type="date" class="form-control" placeholder="From" id="date-from">
     </div>
     <div class="col-md-2 d-flex align-items-center">
-      <input type="date" class="form-control" placeholder="To">
+      <input type="date" class="form-control" placeholder="To" id="date-to">
     </div>
     <div class="col-md-2">
       <div class="form-check">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="col-md-2 d-flex align-items-center text-center">
-      <button type="button" class="btn btn-success btn-block rounded-pill">Search</button>
+      <button type="button" class="btn btn-success btn-block rounded-pill" (click)="searchMachines()">Search</button>
     </div>
   </div>
   <br>

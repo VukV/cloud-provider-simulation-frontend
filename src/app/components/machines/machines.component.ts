@@ -47,12 +47,43 @@ export class MachinesComponent implements OnInit {
 
   getMachines(){
     this.machineService.getMachines(this.machineName, this.statusList, this.dateFrom, this.dateTo).subscribe({
-      complete: () => {},
+      complete: () => {
+        this.statusList = [];
+        this.dateTo = -1;
+        this.dateFrom = -1;
+        this.machineName = "";
+        this.clearChecked();
+      },
       error: (error) => {
         this.openPopup("Error!", error.message);
       },
       next: (machines) => this.machines = machines
     });
+  }
+
+  searchMachines(){
+    let stopped = document.getElementById('stopped-check') as HTMLInputElement;
+    let running = document.getElementById('running-check') as HTMLInputElement;
+    if(stopped.checked){
+      this.statusList.push(MachineStatusEnum.STOPPED);
+    }
+    if(running.checked){
+      this.statusList.push(MachineStatusEnum.RUNNING);
+    }
+
+    let dateFrom = document.getElementById('date-from') as HTMLInputElement;
+    let dateTo = document.getElementById('date-to') as HTMLInputElement;
+    if(dateTo.value || dateFrom.value){
+      if(!isNaN(dateFrom.valueAsNumber) && !isNaN(dateTo.valueAsNumber)){
+        this.dateFrom = dateFrom.valueAsNumber / 1000;
+        this.dateTo = dateTo.valueAsNumber / 1000;
+      }
+      else {
+        this.openPopup("Error!", "Both dates must be selected.");
+      }
+    }
+
+    this.getMachines();
   }
 
   createMachine(){
@@ -71,6 +102,14 @@ export class MachinesComponent implements OnInit {
     this.popupComponent.title = title;
     this.popupComponent.message = message;
     this.popupComponent.displayStyle="block";
+  }
+
+  private clearChecked(){
+    let stopped = document.getElementById('stopped-check') as HTMLInputElement;
+    let running = document.getElementById('running-check') as HTMLInputElement;
+
+    stopped.checked = false;
+    running.checked = false;
   }
 
 }

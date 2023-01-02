@@ -5,7 +5,6 @@ import {catchError, Observable, throwError} from "rxjs";
 import {MachineErrorResponse} from "../model/responses/machine-error-response";
 import {MachineResponse} from "../model/responses/machine-response";
 import {MachineStatusEnum} from "../model/machine-status-enum";
-import {MessageResponse} from "../model/responses/message-response";
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +21,15 @@ export class MachineService {
   getMachines(machineName: string, statusList: MachineStatusEnum[], dateFrom: number, dateTo: number):Observable<MachineResponse[]>{
     let params = new HttpParams();
     if(machineName != ""){
-      params.set("machineName", machineName);
+      params = params.append("machineName", machineName);
+      console.log("usao")
     }
     if(statusList.length > 0){
-      params.set("statusList", statusList.toString());
+      params = params.append("statusList", statusList.toString());
     }
     if(dateFrom > -1 && dateTo > -1){
-      params.set("dateFrom", dateFrom);
-      params.set("dateTo", dateTo);
+      params = params.append("dateFrom", dateFrom);
+      params = params.append("dateTo", dateTo);
     }
 
     return this.httpClient.get<MachineResponse[]>(this.machinesUrl, {
