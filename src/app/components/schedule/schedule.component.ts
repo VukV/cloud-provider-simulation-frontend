@@ -55,9 +55,8 @@ export class ScheduleComponent implements OnInit {
       let timestamp = date.getTime() / 1000;
 
       let action = this.getSelectedAction();
-      console.log(action);
 
-      this.machineService.scheduleTask(this.machineId, MachineActionEnum.START, timestamp).subscribe({
+      this.machineService.scheduleTask(this.machineId, action, timestamp).subscribe({
         complete: () => {
           this.returnToMachines();
         },
