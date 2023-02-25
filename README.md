@@ -7,3 +7,6 @@ The purpose of this application was to make a frontend side that communicates wi
 This is a part of the fullstack project:
 - [Backend](https://github.com/VukV/cloud-provider-simulation-backend)
 - [Frontend](https://github.com/VukV/cloud-provider-simulation-frontend)
+
+
+![App Example](screenshot/screenshot.png?raw=true "Title")
